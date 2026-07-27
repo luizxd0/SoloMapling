@@ -74,6 +74,7 @@ import service.NoteService;
 import soloMapling.ArtificialPlayer.BotClientHandler;
 import soloMapling.Environment.EnvironmentManager;
 import soloMapling.server.MethodScheduler;
+import soloMapling.server.ServerStatusPublisher;
 import tools.DatabaseConnection;
 import tools.Pair;
 
@@ -960,6 +961,7 @@ public class Server {
 
         // SoloMapling cold-boot bot startup. Everything bots need is ready by here:
         BotClientHandler.initHeadlessBotClient();
+        TimerManager.getInstance().register(new ServerStatusPublisher(), 5000);
         if (YamlConfig.config.server.SPAWN_BOTS_ON_STARTUP) {
             MethodScheduler.runAfterDelay(EnvironmentManager::environmentLoadStartup, 1000);
         }
